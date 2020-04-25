@@ -1,0 +1,13 @@
+---
+- name: Installing Docker Engine 
+  hosts: localhost
+  become: True
+  vars_files: 
+    - vars/variables.yml
+  tasks:
+    - import_tasks: tasks/setup-RedHat.yml
+      when: ansible_os_family == "RedHat"
+
+    - import_tasks: tasks/setup-Debian.yml
+      when: ansible_os_family == "Debian"
+
