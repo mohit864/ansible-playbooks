@@ -30,6 +30,12 @@
     update_cache: yes
   when: ansible_distribution_major_version | int <= 7
   
+- name: Install containerd separately (CentOS 8)
+  package:
+    name: https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
+    state: present
+  when: ansible_distribution_major_version | int == 8
+
 - name: Install latest version of Docker Engine (CentOS 8)
   yum:
     name: 
@@ -39,12 +45,6 @@
     update_cache: yes
   when: ansible_distribution_major_version | int == 8
   
-- name: Install containerd separately (CentOS 8)
-  package:
-    name: https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
-    state: present
-  when: ansible_distribution_major_version | int == 8
-
 - name: Ensure Docker is started and enabled at boot
   service:
     name: docker
